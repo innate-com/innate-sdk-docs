@@ -54,7 +54,6 @@ configure :build do
   # activate :gzip
 end
 
-activate :livereload, js_host: '127.0.0.1'
 
 # Deploy Configuration
 # If you want Middleman to listen on a different port, you can set that below
