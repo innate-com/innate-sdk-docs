@@ -3,13 +3,9 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='mailto:support@innate.com'>Contact Innate</a>
 
 includes:
   - errors
@@ -20,226 +16,165 @@ code_clipboard: true
 
 meta:
   - name: description
-    content: Documentation for the Kittn API
+    content: Documentation for the Innate SDK
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Innate SDK! Here you'll find information and documentation regarding integration with Innate Assessments and the Innate App.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+# Terminology
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+To get started, lets define a few terms to make these docs a bit easier to understand.
+
+**Partners** That is most likely _you_. If you are looking to host an Innate Assessment on your site and/or intergrate with the Innate Api to incorporate Innate functionality into another app, then you are a partner.
+
+**Campaign / Project** 
+
+**User** 
+
+**User Campaign** 
+
+
+# Widget
+
+Information about the widget
 
 # Authentication
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
+> To get an access token, use this code:
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+curl "https://auth.innate.app/oauth2/token" \
+  --user <CLIENT_ID>:<CLIENT_SECRET>
+  -d "grant_type=client_credentials"
 ```
 
-```javascript
-const kittn = require('kittn');
+> Make sure to replace `<CLIENT_ID>` AND `<CLIENT_SECRET>` with your id and secret.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+The Innate API uses OAuth2 Client Credentials to allow access to the API. Your OAuth2 Client Id and Client Secret will be provided by Innate.
 
-> Make sure to replace `meowmeowmeow` with your API key.
+Then enpoints expect and bearer token to be included in all API requests. The *access_token* should be included in the header as follows:
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: Bearer <ACCESS_TOKEN>`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth2/token endpoint.
 </aside>
 
-# Kittens
+# Registrations
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+## Get a Registration
 
 ```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+curl "https://innate.app/api/registration/<ID>" \
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "id": "",
+  "email": "Max",
+  "first_name": "unknown",
+  "last_name": "unknown",
+  "registered": 5
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This endpoint retrieves a registration.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<aside class="warning">A <code>404 - Not Found</code> is returned if no registration exists</aside>
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://innate.app/api/registration/<ID>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+ID | The User Campaign ID for the registration
 
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
+## Create a Registration
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+curl "https://innate.app/api/registration/<ID>"
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+  -H 'Content-Type: application/json'
+  --data $'{"email": "url", "first_name": "", "last_name": "", "entry_type": "url"}'
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+  "id": "",
+  "email": "Max",
+  "first_name": "unknown",
+  "last_name": "unknown",
+  "registered": 5,
+  "entry_url": ""
 }
 ```
 
-This endpoint deletes a specific kitten.
+Use this endpoint to create a registratoin associated with a user.
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
+`POST https://innate.app/api/registration/<ID>`
+
+### Registration Request
+
+Parameter | Type | Required | Description
+--------- | ----------- | ----------- | -----------
+email | String | Yes | The email address of the user
+first_name | String | Yes | The first name of the user
+last_name | String | Yes | The last name of the user
+entry_type | String | Yes | The type of entry to generate. Must be `url`
+
+# Entry
+
+## Generate an Entry Url
+
+```shell
+curl "https://innate.app/api/entry/<ID>"
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+  -H 'Content-Type: application/json'
+  --data $'{"type": "url"}'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "entry_url": "https://innate.app/..."
+}
+```
+
+Use this endpoint to generate entry urls with which a user can be redirected to the their Innate assessment results.
+
+<aside class="warning">Only user campaigns that have been registered will be able to generate entry urls</aside>
+
+### HTTP Request
+
+`POST https://innate.app/api/entry/<ID>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to delete
+ID | The User Campaign Id
 
+### Entry Request
+
+Parameter | Type | Required | Description
+--------- | ----------- | ----------- | -----------
+type | String | Yes | The type of entry to generate. Must be `url`
+
+### Entry Response
+
+Parameter | Description
+--------- | -----------
+entry_url | A tokenized url capable of sending fit for redirecting a user
