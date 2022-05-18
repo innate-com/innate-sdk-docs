@@ -9,7 +9,7 @@
             name="description"
             content="Documentation for the Innate SDK"
         >
-    <title>API Reference</title>
+    <title>Innate SDK Reference</title>
 
     <style media="screen">
       .highlight table td { padding: 5px; }
@@ -295,7 +295,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;]">
+  <body class="index" data-languages="[]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -304,9 +304,6 @@
     </a>
     <div class="toc-wrapper">
       <img src="images/logo-595cc699.png" class="logo" alt="" />
-        <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-        </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
@@ -319,10 +316,18 @@
             <a href="#terminology" class="toc-h1 toc-link" data-title="Terminology">Terminology</a>
           </li>
           <li>
-            <a href="#widget" class="toc-h1 toc-link" data-title="Widget">Widget</a>
+            <a href="#assessment-widget" class="toc-h1 toc-link" data-title="Assessment Widget">Assessment Widget</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#css-styling" class="toc-h2 toc-link" data-title="CSS Styling">CSS Styling</a>
+                  </li>
+                  <li>
+                    <a href="#override-registration" class="toc-h2 toc-link" data-title="Override Registration">Override Registration</a>
+                  </li>
+              </ul>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+            <a href="#api-authentication" class="toc-h1 toc-link" data-title="API Authentication">API Authentication</a>
           </li>
           <li>
             <a href="#registrations" class="toc-h1 toc-link" data-title="Registrations">Registrations</a>
@@ -361,14 +366,37 @@
 
 <p><strong>Partners</strong> That is most likely <em>you</em>. If you are looking to host an Innate Assessment on your site and/or intergrate with the Innate Api to incorporate Innate functionality into another app, then you are a partner.</p>
 
-<p><strong>Campaign / Project</strong> </p>
+<p><strong>Campaign</strong> Each project a partner establishes with Innate is called a Campaign. The campaign will be based on a specific assessment and be configured to the a parnters specifications.</p>
 
-<p><strong>User</strong> </p>
+<p><strong>User</strong> The individuals taking the assessments and reviewing the results.</p>
 
-<p><strong>User Campaign</strong> </p>
-<h1 id='widget'>Widget</h1>
-<p>Information about the widget</p>
-<h1 id='authentication'>Authentication</h1>
+<p><strong>User Campaign</strong> The instance of a User taking part in a Campaign. The User Campaign begins the moment a User starts an assessment and produces an unique identifier that is key to tying the Innate experience together.</p>
+<h1 id='assessment-widget'>Assessment Widget</h1>
+<blockquote>
+<p>The snippet will look like:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;innate-app</span> <span class="na">project-id=</span><span class="s">"XXXXXXX"</span><span class="nt">&gt;&lt;/innate-app&gt;</span>
+
+<span class="c">&lt;!-- place at the end of the &lt;body&gt; --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">async</span> <span class="na">src=</span><span class="s">"https://innate.app/loaders/widget.js?id=XXXXXXX"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div>
+<p>Hosting the Innate Assesment Widget within your site is done by placing the code snippet we provide within an html page. The <code>&lt;innate-app&gt;</code> web component is responsive and can be treated as a <code>&lt;div&gt;</code>.</p>
+<h2 id='css-styling'>CSS Styling</h2><div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;template</span> <span class="na">id=</span><span class="s">"overrides"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;style&gt;</span>
+    <span class="nc">.someclass</span> <span class="p">{</span>
+      <span class="nl">background-color</span><span class="p">:</span> <span class="no">yellow</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/template&gt;</span>
+<span class="nt">&lt;innate-app</span> <span class="na">project-id=</span><span class="s">"XXXXXXX"</span> <span class="na">style-template=</span><span class="s">"overrides"</span><span class="nt">&gt;&lt;/innate-app&gt;</span>
+</code></pre></div>
+<p>CSS Styling within the widget can be overriden by providing a style template to the <code>&lt;innate-app&gt;</code> web component.</p>
+
+<p>Examine the elements of the widget within your browser developer tools to identify the CSS selectors.</p>
+<h2 id='override-registration'>Override Registration</h2><div class="highlight"><pre class="highlight html tab-html"><code><span class="nt">&lt;innate-app</span> <span class="na">project-id=</span><span class="s">"XXXXXXX"</span> <span class="na">reg-url=</span><span class="s">"https://yoursite.com/regpage"</span><span class="nt">&gt;&lt;/innate-app&gt;</span>
+</code></pre></div>
+<p>By adding a <code>reg-url</code> attribute to the <code>&lt;innate-app&gt;</code> web component the Registration step will be redirected to a url of your choosing. The User Campaign ID will appended to the query string with the name <code>ucid</code></p>
+<h1 id='api-authentication'>API Authentication</h1>
 <blockquote>
 <p>To get an access token, use this code:</p>
 </blockquote>
@@ -378,11 +406,18 @@
 </code></pre></div>
 <blockquote>
 <p>Make sure to replace <code>&lt;CLIENT_ID&gt;</code> AND <code>&lt;CLIENT_SECRET&gt;</code> with your id and secret.</p>
-</blockquote>
 
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>The Innate API uses OAuth2 Client Credentials to allow access to the API. Your OAuth2 Client Id and Client Secret will be provided by Innate.</p>
 
-<p>Then enpoints expect and bearer token to be included in all API requests. The <em>access_token</em> should be included in the header as follows:</p>
+<p>Then API endpoints expect a Bearer token to be included in all API requests. The <em>access_token</em> response MUST be included in the header as follows:</p>
 
 <p><code>Authorization: Bearer &lt;ACCESS_TOKEN&gt;</code></p>
 
@@ -396,11 +431,11 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"registered"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"registration@test.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"registered"</span><span class="p">:</span><span class="w"> </span><span class="mi">1652886639</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint retrieves a registration.</p>
@@ -423,18 +458,21 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
 <h2 id='create-a-registration'>Create a Registration</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://innate.app/api/registration/&lt;ID&gt;"</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Bearer &lt;ACCESS_TOKEN&gt;"</span>
   <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span>
-  <span class="nt">--data</span> <span class="s1">$'{"email": "url", "first_name": "", "last_name": "", "entry_type": "url"}'</span>
+  <span class="nt">--data</span> <span class="s1">$'{"email": "registration@test.com", 
+            "first_name": "Test", 
+            "last_name": "User", 
+            "entry_type": "url"}'</span>
 </code></pre></div>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"registered"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"entry_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"registration@test.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"registered"</span><span class="p">:</span><span class="w"> </span><span class="mi">1652886639</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"entry_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://innate.app/access/entry/eyJhb....t1DmAA"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Use this endpoint to create a registratoin associated with a user.</p>
@@ -483,7 +521,7 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"entry_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://innate.app/..."</span><span class="w">
+  </span><span class="nl">"entry_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://innate.app/access/entry/eyJhb....t1DmAA"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Use this endpoint to generate entry urls with which a user can be redirected to the their Innate assessment results.</p>
@@ -576,9 +614,6 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
 
       </div>
       <div class="dark-box">
-          <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-          </div>
       </div>
     </div>
   </body>
