@@ -1,8 +1,7 @@
 ---
-title: API Reference
+title: Innate SDK Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
 
 toc_footers:
   - <a href='mailto:support@innate.com'>Contact Innate</a>
@@ -29,18 +28,51 @@ To get started, lets define a few terms to make these docs a bit easier to under
 
 **Partners** That is most likely _you_. If you are looking to host an Innate Assessment on your site and/or intergrate with the Innate Api to incorporate Innate functionality into another app, then you are a partner.
 
-**Campaign / Project** 
+**Campaign** Each project a partner establishes with Innate is called a Campaign. The campaign will be based on a specific assessment and be configured to the a parnters specifications.
 
-**User** 
+**User** The individuals taking the assessments and reviewing the results.
 
-**User Campaign** 
+**User Campaign** The instance of a User taking part in a Campaign. The User Campaign begins the moment a User starts an assessment and produces an unique identifier that is key to tying the Innate experience together.
 
+# Assessment Widget
 
-# Widget
+> The snippet will look like:
 
-Information about the widget
+```html
+<innate-app project-id="XXXXXXX"></innate-app>
 
-# Authentication
+<!-- place at the end of the <body> -->
+<script async src="https://innate.app/loaders/widget.js?id=XXXXXXX"></script>
+```
+
+Hosting the Innate Assesment Widget within your site is done by placing the code snippet we provide within an html page. The <code>&lt;innate-app&gt;</code> web component is responsive and can be treated as a <code>&lt;div&gt;</code>.
+
+## CSS Styling
+
+```html
+<template id="overrides">
+  <style>
+    .someclass {
+      background-color: yellow;
+    }
+  </style>
+</template>
+<innate-app project-id="XXXXXXX" style-template="overrides"></innate-app>
+```
+
+CSS Styling within the widget can be overriden by providing a style template to the <code>&lt;innate-app&gt;</code> web component.
+
+Examine the elements of the widget within your browser developer tools to identify the CSS selectors.
+
+## Override Registration
+
+```html
+<innate-app project-id="XXXXXXX" reg-url="https://yoursite.com/regpage"></innate-app>
+```
+
+By adding a <code>reg-url</code> attribute to the <code>&lt;innate-app&gt;</code> web component the Registration step will be redirected to a url of your choosing. The User Campaign ID will appended to the query string with the name <code>ucid</code>
+
+# API Authentication
 
 > To get an access token, use this code:
 
@@ -52,9 +84,20 @@ curl "https://auth.innate.app/oauth2/token" \
 
 > Make sure to replace `<CLIENT_ID>` AND `<CLIENT_SECRET>` with your id and secret.
 
+> The above command returns JSON structured like this:
+
+```json
+{
+  "access_token": "...",
+  "expires_in": 3600,
+  "token_type": "Bearer"
+}
+```
+
+
 The Innate API uses OAuth2 Client Credentials to allow access to the API. Your OAuth2 Client Id and Client Secret will be provided by Innate.
 
-Then enpoints expect and bearer token to be included in all API requests. The *access_token* should be included in the header as follows:
+Then API endpoints expect a Bearer token to be included in all API requests. The *access_token* response MUST be included in the header as follows:
 
 `Authorization: Bearer <ACCESS_TOKEN>`
 
@@ -75,11 +118,11 @@ curl "https://innate.app/api/registration/<ID>" \
 
 ```json
 {
-  "id": "",
-  "email": "Max",
-  "first_name": "unknown",
-  "last_name": "unknown",
-  "registered": 5
+  "id": "....",
+  "email": "registration@test.com",
+  "first_name": "Test",
+  "last_name": "User",
+  "registered": 1652886639
 }
 ```
 
@@ -103,19 +146,22 @@ ID | The User Campaign ID for the registration
 curl "https://innate.app/api/registration/<ID>"
   -H "Authorization: Bearer <ACCESS_TOKEN>"
   -H 'Content-Type: application/json'
-  --data $'{"email": "url", "first_name": "", "last_name": "", "entry_type": "url"}'
+  --data $'{"email": "registration@test.com", 
+            "first_name": "Test", 
+            "last_name": "User", 
+            "entry_type": "url"}'
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": "",
-  "email": "Max",
-  "first_name": "unknown",
-  "last_name": "unknown",
-  "registered": 5,
-  "entry_url": ""
+  "id": "....",
+  "email": "registration@test.com",
+  "first_name": "Test",
+  "last_name": "User",
+  "registered": 1652886639,
+  "entry_url": "https://innate.app/access/entry/eyJhb....t1DmAA"
 }
 ```
 
@@ -149,7 +195,7 @@ curl "https://innate.app/api/entry/<ID>"
 
 ```json
 {
-  "entry_url": "https://innate.app/..."
+  "entry_url": "https://innate.app/access/entry/eyJhb....t1DmAA"
 }
 ```
 
