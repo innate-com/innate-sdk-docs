@@ -455,10 +455,11 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
 <td>The User Campaign ID for the registration</td>
 </tr>
 </tbody></table>
-<h2 id='create-a-registration'>Create a Registration</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://innate.app/api/registration/&lt;ID&gt;"</span>
+<h2 id='create-a-registration'>Create a Registration</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://innate.app/api/registration"</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Bearer &lt;ACCESS_TOKEN&gt;"</span>
   <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span>
-  <span class="nt">--data</span> <span class="s1">$'{"email": "registration@test.com", 
+  <span class="nt">--data</span> <span class="s1">$'{"id": "...."
+            "email": "registration@test.com", 
             "first_name": "Test", 
             "last_name": "User", 
             "entry_type": "url"}'</span>
@@ -467,7 +468,7 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"24Fl9U....kY"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"registration@test.com"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
@@ -475,9 +476,9 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
   </span><span class="nl">"entry_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://innate.app/access/entry/eyJhb....t1DmAA"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Use this endpoint to create a registratoin associated with a user.</p>
+<p>Use this endpoint to create a registration associated with a user.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>POST https://innate.app/api/registration/&lt;ID&gt;</code></p>
+<p><code>POST https://innate.app/api/registration</code></p>
 <h3 id='registration-request'>Registration Request</h3>
 <table><thead>
 <tr>
@@ -487,6 +488,12 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>id</td>
+<td>String</td>
+<td>Yes</td>
+<td>The User Campaign Id</td>
+</tr>
 <tr>
 <td>email</td>
 <td>String</td>
