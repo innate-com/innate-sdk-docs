@@ -143,10 +143,11 @@ ID | The User Campaign ID for the registration
 ## Create a Registration
 
 ```shell
-curl "https://innate.app/api/registration/<ID>"
+curl "https://innate.app/api/registration"
   -H "Authorization: Bearer <ACCESS_TOKEN>"
   -H 'Content-Type: application/json'
-  --data $'{"email": "registration@test.com", 
+  --data $'{"id": "...."
+            "email": "registration@test.com", 
             "first_name": "Test", 
             "last_name": "User", 
             "entry_type": "url"}'
@@ -156,7 +157,7 @@ curl "https://innate.app/api/registration/<ID>"
 
 ```json
 {
-  "id": "....",
+  "id": "24Fl9U....kY",
   "email": "registration@test.com",
   "first_name": "Test",
   "last_name": "User",
@@ -165,16 +166,17 @@ curl "https://innate.app/api/registration/<ID>"
 }
 ```
 
-Use this endpoint to create a registratoin associated with a user.
+Use this endpoint to create a registration associated with a user.
 
 ### HTTP Request
 
-`POST https://innate.app/api/registration/<ID>`
+`POST https://innate.app/api/registration`
 
 ### Registration Request
 
 Parameter | Type | Required | Description
 --------- | ----------- | ----------- | -----------
+id | String | Yes | The User Campaign Id
 email | String | Yes | The email address of the user
 first_name | String | Yes | The first name of the user
 last_name | String | Yes | The last name of the user
