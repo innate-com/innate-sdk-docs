@@ -341,6 +341,17 @@
               </ul>
           </li>
           <li>
+            <a href="#fields" class="toc-h1 toc-link" data-title="Fields">Fields</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-fields" class="toc-h2 toc-link" data-title="Get Fields">Get Fields</a>
+                  </li>
+                  <li>
+                    <a href="#put-fields" class="toc-h2 toc-link" data-title="Put Fields">Put Fields</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#entry" class="toc-h1 toc-link" data-title="Entry">Entry</a>
               <ul class="toc-list-h2">
                   <li>
@@ -417,7 +428,7 @@
 </span></code></pre></div>
 <p>The Innate API uses OAuth2 Client Credentials to allow access to the API. Your OAuth2 Client Id and Client Secret will be provided by Innate.</p>
 
-<p>Then API endpoints expect a Bearer token to be included in all API requests. The <em>access_token</em> response MUST be included in the header as follows:</p>
+<p>The API endpoints expect a Bearer token to be included in all API requests. The <em>access_token</em> response MUST be included in the header as follows:</p>
 
 <p><code>Authorization: Bearer &lt;ACCESS_TOKEN&gt;</code></p>
 
@@ -519,6 +530,96 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
 <td>The type of entry to generate. Must be <code>url</code></td>
 </tr>
 </tbody></table>
+<h1 id='fields'>Fields</h1><h2 id='get-fields'>Get Fields</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://innate.app/api/fields/&lt;ID&gt;"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer &lt;ACCESS_TOKEN&gt;"</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"female"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"year_of_birth"</span><span class="p">:</span><span class="w"> </span><span class="mi">1972</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"current_career"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19-1022.00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"education_level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"masters_degree"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint retrieves the fields assocaited with a user campaign.</p>
+
+<aside class="warning">A <code>404 - Not Found</code> is returned if no fields have been set</aside>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>GET https://innate.app/api/fields/&lt;ID&gt;</code></p>
+<h3 id='url-parameters-2'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>The User Campaign ID</td>
+</tr>
+</tbody></table>
+<h2 id='put-fields'>Put Fields</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://innate.app/api/fields/&lt;ID&gt;"</span>
+  <span class="nt">-X</span> PUT
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer &lt;ACCESS_TOKEN&gt;"</span>
+  <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span>
+  <span class="nt">--data</span> <span class="s1">$'{"gender": "other", 
+            "year_of_birth": 1982, 
+            "current_career": "11-9199.01", 
+            "education_level": "high_school"}'</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"24Fl9U....kY"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"other"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"year_of_birth"</span><span class="p">:</span><span class="w"> </span><span class="mi">1982</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"current_career"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11-9199.01"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"education_level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"high_school"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Use this endpoint to update the fields associated with a user campaign.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>PUT https://innate.app/api/fields/&lt;ID&gt;</code></p>
+<h3 id='fields-request'>Fields Request</h3>
+<aside class="info">All fields are optional, but at least one must be provided</aside>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>gender</td>
+<td>String</td>
+<td>No</td>
+<td>Valid values are <code>male</code>, <code>female</code>, or <code>other</code></td>
+</tr>
+<tr>
+<td>year_of_birth</td>
+<td>String</td>
+<td>No</td>
+<td>Valid values are between (Current Year - 13) and (Current Year - 110). For 2023, the range would be 2010 - 1913</td>
+</tr>
+<tr>
+<td>current_career</td>
+<td>String</td>
+<td>No</td>
+<td>SOC Code of the user&#39;s current career. Only values from this <a href="images/all_careers.csv">list</a> are supported.</td>
+</tr>
+<tr>
+<td>education_level</td>
+<td>String</td>
+<td>No</td>
+<td>Valid values are <code>no_formal_education</code>, <code>high_school</code>, <code>trade_school</code>, <code>associates_degree</code>, <code>bachelors_degree</code>, <code>masters_degree</code>, or <code>doctoral_degree</code></td>
+</tr>
+</tbody></table>
 <h1 id='entry'>Entry</h1><h2 id='generate-an-entry-url'>Generate an Entry Url</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://innate.app/api/entry/&lt;ID&gt;"</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Bearer &lt;ACCESS_TOKEN&gt;"</span>
   <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span>
@@ -534,9 +635,9 @@ You must replace <code>&lt;ACCESS_TOKEN&gt;</code> with token provided by /oauth
 <p>Use this endpoint to generate entry urls with which a user can be redirected to the their Innate assessment results.</p>
 
 <aside class="warning">Only user campaigns that have been registered will be able to generate entry urls</aside>
-<h3 id='http-request-3'>HTTP Request</h3>
+<h3 id='http-request-5'>HTTP Request</h3>
 <p><code>POST https://innate.app/api/entry/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<h3 id='url-parameters-3'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
