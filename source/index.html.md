@@ -97,7 +97,7 @@ curl "https://auth.innate.app/oauth2/token" \
 
 The Innate API uses OAuth2 Client Credentials to allow access to the API. Your OAuth2 Client Id and Client Secret will be provided by Innate.
 
-Then API endpoints expect a Bearer token to be included in all API requests. The *access_token* response MUST be included in the header as follows:
+The API endpoints expect a Bearer token to be included in all API requests. The *access_token* response MUST be included in the header as follows:
 
 `Authorization: Bearer <ACCESS_TOKEN>`
 
@@ -181,6 +181,86 @@ email | String | Yes | The email address of the user
 first_name | String | Yes | The first name of the user
 last_name | String | Yes | The last name of the user
 entry_type | String | Yes | The type of entry to generate. Must be `url`
+
+
+
+# Fields
+
+## Get Fields
+
+```shell
+curl "https://innate.app/api/fields/<ID>" \
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": "....",
+  "gender": "female",
+  "year_of_birth": 1972,
+  "current_career": "19-1022.00",
+  "education_level": "masters_degree"
+}
+```
+
+This endpoint retrieves the fields assocaited with a user campaign.
+
+<aside class="warning">A <code>404 - Not Found</code> is returned if no fields have been set</aside>
+
+### HTTP Request
+
+`GET https://innate.app/api/fields/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The User Campaign ID 
+
+## Put Fields
+
+```shell
+curl "https://innate.app/api/fields/<ID>"
+  -X PUT
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+  -H 'Content-Type: application/json'
+  --data $'{"gender": "other", 
+            "year_of_birth": 1982, 
+            "current_career": "11-9199.01", 
+            "education_level": "high_school"}'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": "24Fl9U....kY",
+  "gender": "other",
+  "year_of_birth": 1982,
+  "current_career": "11-9199.01",
+  "education_level": "high_school"
+}
+```
+
+Use this endpoint to update the fields associated with a user campaign.
+
+### HTTP Request
+
+`PUT https://innate.app/api/fields/<ID>`
+
+### Fields Request
+
+<aside class="info">All fields are optional, but at least one must be provided</aside>
+
+Parameter | Type | Required | Description
+--------- | ----------- | ----------- | -----------
+gender | String | No | Valid values are `male`, `female`, or `other`
+year_of_birth | String | No | Valid values are between (Current Year - 13) and (Current Year - 110). For 2023, the range would be 2010 - 1913
+current_career | String | No | SOC Code of the user's current career. Only values from this [list](./images/all_careers.csv) are supported.
+education_level | String | No | Valid values are `no_formal_education`, `high_school`, `trade_school`, `associates_degree`, `bachelors_degree`, `masters_degree`, or `doctoral_degree`
+
 
 # Entry
 
